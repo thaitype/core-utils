@@ -1,5 +1,11 @@
 # @thaitype/core-utils
 
+## 1.1.0
+
+### Minor Changes
+
+- b9ee479: Add middleware for any function
+
 ## 1.0.0
 
 ### Major Changes
