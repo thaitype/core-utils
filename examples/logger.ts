@@ -1,4 +1,4 @@
-import { PrettyLogger, type ILogger } from "@thaitype/core-utils";
+import { PrettyLogger, type ILogger } from "@thaitype/core-utils/logger";
 
 export class Main {
 

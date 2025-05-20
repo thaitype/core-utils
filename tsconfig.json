@@ -27,6 +27,7 @@
       "@thaitype/core-utils": ["./src/index.ts"],
       "@thaitype/core-utils/error": ["./src/error/index.ts"],
       "@thaitype/core-utils/logger": ["./src/logger/index.ts"],
+      "@thaitype/core-utils/middleware": ["./src/middleware/index.ts"],
     }
   }
 }

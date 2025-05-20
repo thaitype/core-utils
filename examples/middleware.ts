@@ -1,4 +1,4 @@
-import { applyMiddleware, createMiddleware } from "@thaitype/core-utils";
+import { applyMiddleware, createMiddleware } from "@thaitype/core-utils/middleware";
 
 type Context = {
   user?: { role: string };
@@ -21,7 +21,7 @@ const withRoleCheck = (role: string) =>
 
 const handler = async (ctx: Context) => {
   console.log('🟢 Handler running...');
-  return '🎉 Done!';
+  return '🎉 Done!'; 
 };
 
 const run = applyMiddleware(handler, withLogger, withRoleCheck('admin'));
