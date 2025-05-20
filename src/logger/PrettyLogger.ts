@@ -1,15 +1,40 @@
 import c from 'ansis';
 import type { ILogger, LogLevel } from './ILogger.js';
+import { merge } from "lodash-es";
 
-export const MARK_CHECK = c.green('✔');
-export const MARK_INFO = c.blue('ℹ');
-export const MARK_ERROR = c.red('✖');
-export const MARK_WARNING = c.yellow('!');
+export const MARK_INFO = 'ℹ'; // blue
+export const MARK_ERROR = '✖'; // red
+export const MARK_WARNING = '!'; // yellow
+export const MARK_DEBUG = '[debug]'; // gray
 
 const LEVEL_ORDER: LogLevel[] = ['silent', 'error', 'warn', 'info', 'debug'];
 
-export class ConsoleLogger implements ILogger {
-  constructor(public level: LogLevel = 'debug') {}
+export interface PrettyLoggerOptions {
+  /** Whether to use colors */
+  color: boolean;
+  /** Whether to use dimmed text for meta */
+  dimMeta: boolean;
+  customPrefix: {
+    [key in LogLevel]?: string;
+  }
+}
+
+export const defaultConsoleLoggerOptions: PrettyLoggerOptions = {
+  color: true,
+  dimMeta: true,
+  customPrefix: {
+    error: MARK_ERROR,
+    warn: MARK_WARNING,
+    info: MARK_INFO,
+    debug: MARK_DEBUG,
+  }
+}
+
+export class PrettyLogger implements ILogger {
+  private options: PrettyLoggerOptions;
+  constructor(public readonly level: LogLevel = 'debug', options?: Partial<PrettyLoggerOptions>) {
+    this.options = merge({}, defaultConsoleLoggerOptions, options);
+  }
 
   // Used by logWithLevel to check if the level should output
   private shouldLog(target: LogLevel): boolean {
@@ -45,27 +70,32 @@ export class ConsoleLogger implements ILogger {
 
   info(message: string, meta?: Record<string, unknown>): void {
     if (!this.shouldLog('info')) return;
-    console.info(`${MARK_INFO} ${message}${this.metaStr(meta)}`);
+    const prefix = this.options.color ? c.blue(this.options.customPrefix['info']) : this.options.customPrefix['info'];
+    console.info(`${prefix} ${message}${this.metaStr(meta)}`);
   }
 
   warn(message: string, meta?: Record<string, unknown>): void {
     if (!this.shouldLog('warn')) return;
-    console.warn(`${MARK_WARNING} ${message}${this.metaStr(meta)}`);
+    const prefix = this.options.color ? c.yellow(this.options.customPrefix['warn']) : this.options.customPrefix['warn'];
+    console.warn(`${prefix} ${message}${this.metaStr(meta)}`);
   }
 
   error(message: string, meta?: Record<string, unknown>): void {
     if (!this.shouldLog('error')) return;
-    console.error(`${MARK_ERROR} ${message}${this.metaStr(meta)}`);
+    const prefix = this.options.color ? c.red(this.options.customPrefix['error']) : this.options.customPrefix['error'];
+    console.error(`${prefix} ${message}${this.metaStr(meta)}`);
   }
 
   debug(message: string, meta?: Record<string, unknown>): void {
     if (!this.shouldLog('debug')) return;
-    console.debug(c.gray(`[debug] ${message}${this.metaStr(meta, false)}`));
+    const logMessage = `[debug] ${message}${this.metaStr(meta, false)}`;
+    console.debug(this.options.color ? c.gray(logMessage) : logMessage);
   }
 
   // Helper to format meta
   private metaStr(meta?: Record<string, unknown>, isDimmed = true): string {
-    const metaString = isDimmed ? c.dim(JSON.stringify(meta)) : JSON.stringify(meta);
+    const resolvedIsDimmed = this.options.dimMeta && isDimmed;
+    const metaString = resolvedIsDimmed ? c.dim(JSON.stringify(meta)) : JSON.stringify(meta);
     return meta ? ` ${metaString}` : '';
   }
 
