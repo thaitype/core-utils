@@ -6,7 +6,7 @@ export interface LoggedEntry {
   meta?: Record<string, unknown>;
 }
 
-export class MemoryLogger implements ILogger {
+export class InMemoryLogger implements ILogger {
   public readonly entries: LoggedEntry[] = [];
   public level: LogLevel;
 
