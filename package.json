@@ -12,10 +12,15 @@
       "import": "./dist/esm/index.js",
       "default": "./dist/cjs/index.js"
     },
-    "./calculator": {
-      "types": "./dist/dts/calculator.d.ts",
-      "import": "./dist/esm/calculator.js",
-      "default": "./dist/cjs/calculator.js"
+    "./logger": {
+      "types": "./dist/dts/logger/index.d.ts",
+      "import": "./dist/esm/logger/index.js",
+      "default": "./dist/cjs/logger/index.js"
+    },
+    "./error": {
+      "types": "./dist/dts/error/index.d.ts",
+      "import": "./dist/esm/error/index.js",
+      "default": "./dist/cjs/error/index.js"
     }
   },
   "files": [
@@ -71,5 +76,8 @@
     "singleQuote": true,
     "printWidth": 120,
     "arrowParens": "avoid"
+  },
+  "dependencies": {
+    "ansis": "^4.0.0"
   }
 }
