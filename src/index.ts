@@ -3,10 +3,13 @@
  *
  * Export all the functions from the library
  */
-
-export * from './calculator.js';
-
+export * from './logger/index.js';
+export * from './error/index.js';
 /**
- * Export `add` modules with module name `add`
+ * Export `logger` modules with module name `logger`
  */
-export * as calculator from './calculator.js';
+export * as logger from './logger/index.js';
+/**
+ * Export `error` modules with module name `error`
+ */
+export * as error from './error/index.js';

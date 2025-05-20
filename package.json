@@ -12,10 +12,15 @@
       "import": "./dist/esm/index.js",
       "default": "./dist/cjs/index.js"
     },
-    "./calculator": {
-      "types": "./dist/dts/calculator.d.ts",
-      "import": "./dist/esm/calculator.js",
-      "default": "./dist/cjs/calculator.js"
+    "./logger": {
+      "types": "./dist/dts/logger/index.d.ts",
+      "import": "./dist/esm/logger/index.js",
+      "default": "./dist/cjs/logger/index.js"
+    },
+    "./error": {
+      "types": "./dist/dts/error/index.d.ts",
+      "import": "./dist/esm/error/index.js",
+      "default": "./dist/cjs/error/index.js"
     }
   },
   "files": [
@@ -25,7 +30,7 @@
     "package.json"
   ],
   "scripts": {
-    "all": "run-s check test build",
+    "all": "run-s check build",
     "check": "tsc -b tsconfig.json",
     "test": "vitest run",
     "check:watch": "tsc -b tsconfig.json -w",
@@ -50,6 +55,7 @@
     "babel-plugin-annotate-pure-calls": "^0.5.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^3.5.3",
+    "@types/lodash-es": "^4.17.12",
     "vitest": "^3.1.4"
   },
   "peerDependencies": {
@@ -71,5 +77,9 @@
     "singleQuote": true,
     "printWidth": 120,
     "arrowParens": "avoid"
+  },
+  "dependencies": {
+    "lodash-es": "^4.17.21",
+    "ansis": "^4.0.0"
   }
 }

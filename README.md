@@ -1,78 +1,120 @@
-# NPM Boilerplate for Publishing TypeScript Packages for Both ESM and CommonJS
+# @thaitype/core-utils
 
-NPM TypeScript Boilerplate with Bun, ESM, using TSC without bundler, support Sourcemap from TypeScript
+[![CI](https://github.com/thaitype/core-utils/actions/workflows/main.yml/badge.svg)](https://github.com/thaitype/core-utils/actions/workflows/main.yml) [![NPM Version](https://img.shields.io/npm/v/@thaitype/core-utils) ](https://www.npmjs.com/package/@thaitype/core-utils)[![npm downloads](https://img.shields.io/npm/dt/@thaitype/core-utils)](https://www.npmjs.com/package/@thaitype/core-utils)
 
-## Usage
+> ✨ Reusable utilities for TypeScript projects – including logging, typed errors, and more.
 
-### Development
-```
-bun install
-bun run build
-```
+This package gives you two core tools for building robust, developer-friendly applications:
 
-### Type Checking
-```
-bun run check
-```
+- 🧩 `TypedError` — custom errors with structured metadata
+- 🎨 `PrettyLogger` — colorful, pluggable logger that implements a shared `ILogger` interface
 
-### Type Checking with Watch
-```
-bun run check:watch
+## 🚀 Installation
+
+```bash
+npm install @thaitype/core-utils
+# or
+pnpm add @thaitype/core-utils
 ```
 
-### Publish
+## 🔥 Quick Start
 
-Using `release-it` to publish the package, using npm commandline with OTP (One Time Password) for 2FA (Two Factor Authentication)
+### TypedError — Custom Error with Metadata
 
-```
-bun run release
-``` 
+```ts
+import { TypedError } from '@thaitype/core-utils';
 
-## Supporting Both ESM and CommonJS
+class UserNotFoundError extends TypedError<{ id: string }> {}
 
-This library supports both **ECMAScript Modules (ESM)** and **CommonJS (CJS)** by compiling TypeScript to both module formats. This ensures compatibility across different environments.
-
-### Build Process
-
-We use multiple build steps to generate both ESM and CJS versions:
-
-```json
-{
-  "build-esm": "tsc -b tsconfig.build.json",
-  "build-cjs": "babel dist/esm --plugins @babel/transform-export-namespace-from --plugins @babel/transform-modules-commonjs --out-dir dist/cjs --source-maps",
-  "build-annotate": "babel dist --plugins annotate-pure-calls --out-dir dist --source-maps"
+try {
+  throw new UserNotFoundError('User not found', { id: '123' });
+} catch (err) {
+  if (err instanceof UserNotFoundError) {
+    console.error(err.meta?.id); // Logs: 123
+  }
 }
-
 ```
 
-- **`build-esm`**: Compiles TypeScript to ESM using `tsc` with the `tsconfig.build.json` configuration.
-- **`build-cjs`**: Converts ESM to CommonJS using Babel with `@babel/transform-export-namespace-from` and `@babel/transform-modules-commonjs` plugins.
-- **`build-annotate`**: Adds `annotate-pure-calls` annotations to improve tree-shaking and debugging.
+Great for precise error types, clean stack traces, and useful debugging info.
 
-### Handling `type: "module"`
+### PrettyLogger — Flexible Console Logger
 
-When publishing to **npm**, we **remove** `"type": "module"` in `package.json` to prevent issues in CommonJS projects. Otherwise, Node.js would treat all JavaScript files as ESM, causing import errors in CJS environments.
+```ts
+import { PrettyLogger } from '@thaitype/core-utils';
 
-During development, `"type": "module"` is **kept** to ensure correct behavior when testing the ESM build.
+const logger = new PrettyLogger();
 
-### Automating the Publish Process
+logger.info('Server started');
+logger.warn('Disk space low');
+logger.error('Unexpected error occurred', { code: 500 });
+logger.debug('Loading config', { path: '/etc/app.json' });
+```
 
-To handle this automatically, we use **release-it** along with pre/post publish hooks:
+- ✨ Automatically color-coded
+- 🧠 Optional metadata support
+- 🔁 Fully pluggable with the shared `ILogger` interface
 
-```json
-{
-  "hooks": {
-    "before:npm:release": "bun run prepublishOnly",
-    "after:npm:release": "bun run postpublish"
+## 🧠 Swap Loggers with `ILogger`
+
+Use `ILogger` in your code and plug in different loggers depending on your environment:
+
+```ts
+import type { ILogger } from '@thaitype/core-utils';
+import { PrettyLogger, MemoryLogger } from '@thaitype/core-utils';
+
+class App {
+  constructor(private readonly logger: ILogger) {}
+
+  run() {
+    this.logger.info('App running...');
   }
 }
 
+// ✅ Use in dev
+const logger = new PrettyLogger();
+new App(logger).run();
+
+// ✅ Use in tests
+const memoryLogger = new MemoryLogger();
+new App(memoryLogger).run();
+console.log(memoryLogger.logs); // Assert logs in unit tests
 ```
 
-- **`before:npm:release`**: Ensures the correct build setup before publishing.
-- **`after:npm:release`**: Cleans up any post-publish artifacts.
+## 🧪 Other Loggers
 
-Since **release-it** does not use npm lifecycle hooks, we manually invoke these scripts in `.release-it.json` to ensure the correct behavior.
+* **MemoryLogger** – keeps logs in memory, perfect for tests
+* **NoopLogger** – disables all logging (no-op implementation)
 
-## References
-Build process come from Effect.ts: https://github.com/Effect-TS/effect/blob/99fcbf712d40a90ac5c8843237d26914146d7312/packages/effect/package.json#L35-L39
+```ts
+import { MemoryLogger, NoopLogger } from '@thaitype/core-utils';
+
+const testLogger = new MemoryLogger();
+const silentLogger = new NoopLogger();
+```
+
+## 📦 Exports
+
+```ts
+// Core
+import { TypedError, PrettyLogger, MemoryLogger, NoopLogger } from '@thaitype/core-utils';
+
+// Namespaced (optional)
+import * as logger from '@thaitype/core-utils/logger';
+import * as error from '@thaitype/core-utils/error';
+```
+
+## 🛠 When to Use
+
+| Use Case                  | Recommended Utility |
+| ------------------------- | ------------------- |
+| Throwing typed errors     | `TypedError`        |
+| Dev-time logs with colors | `PrettyLogger`      |
+| Silent mode or production | `NoopLogger`        |
+| Log capture for tests     | `MemoryLogger`      |
+
+## 💙 Maintained by [ThaiType](https://github.com/thaitype)
+
+We build tools that stay out of your way and help you write better TypeScript.
+
+PRs welcome!
+
