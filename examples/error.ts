@@ -1,4 +1,4 @@
-import { TypedError } from "./TypedError.js";
+import { TypedError } from "@thaitype/core-utils";
 
 class UserNotFoundError extends TypedError<{ id: string }> { }
 

@@ -30,7 +30,7 @@
     "package.json"
   ],
   "scripts": {
-    "all": "run-s check test build",
+    "all": "run-s check build",
     "check": "tsc -b tsconfig.json",
     "test": "vitest run",
     "check:watch": "tsc -b tsconfig.json -w",

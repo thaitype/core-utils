@@ -8,9 +8,6 @@ importers:
 
   .:
     dependencies:
-      '@types/lodash-es':
-        specifier: ^4.17.12
-        version: 4.17.12
       ansis:
         specifier: ^4.0.0
         version: 4.0.0
@@ -39,6 +36,9 @@ importers:
       '@type-challenges/utils':
         specifier: ^0.1.1
         version: 0.1.1
+      '@types/lodash-es':
+        specifier: ^4.17.12
+        version: 4.17.12
       '@types/node':
         specifier: ^22.15.19
         version: 22.15.19
