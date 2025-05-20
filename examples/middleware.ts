@@ -26,10 +26,21 @@ const handler = async (ctx: Context) => {
 
 const run = applyMiddleware(handler, withLogger, withRoleCheck('admin'));
 
-// ✅ รัน middleware
+// Example of a class-based handler
+// class MyHandler {
+//   async run(ctx: Context) {
+//     console.log('🟢 MyHandler running...');
+//     return '🎉 MyHandler Done!';
+//   }
+// }
+// const myHandler = new MyHandler();
+// const run = applyMiddleware(myHandler.run.bind(myHandler), withLogger, withRoleCheck('admin'));
+
+
 (async () => {
   try {
     const result = await run({ user: { role: 'admin' } });
+    // const result = await run({ user: { role: 'user' } }); // Uncomment to test unauthorized case
     console.log('✅ Result:', result);
   } catch (e) {
     if (e instanceof Error) {
@@ -39,3 +50,10 @@ const run = applyMiddleware(handler, withLogger, withRoleCheck('admin'));
     }
   }
 })();
+
+// The result should be:
+// 🟡 Logger START
+// 🔐 Checking role...
+// 🟢 Handler running...
+// 🟣 Logger END
+// ✅ Result: 🎉 Done!
