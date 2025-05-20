@@ -31,7 +31,7 @@
     "check:watch": "tsc -b tsconfig.json -w",
     "format": "prettier --write src",
     "copy-package-json": "cp package.json dist/ && npx tsx scripts/remove-type-key.ts dist",
-    "release": "run-s build && run-s copy-package-json && changeset publish",
+    "release": "run-s build && changeset publish",
     "build": " run-s format && run-s build-esm && run-s build-cjs && run-s build-annotate",
     "build-esm": "tsc -b tsconfig.build.json",
     "build-cjs": "babel dist/esm --plugins @babel/transform-export-namespace-from --plugins @babel/transform-modules-commonjs --out-dir dist/cjs --source-maps",
@@ -56,8 +56,7 @@
     "typescript": "^5.7.2"
   },
   "publishConfig": {
-    "access": "public",
-    "directory": "dist"
+    "access": "public"
   },
   "repository": {
     "type": "git",
