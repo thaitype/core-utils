@@ -1,4 +1,4 @@
-import { test, expect } from 'bun:test';
+import { test, expect } from 'vitest';
 import { add } from './calculator.js';
 
 test('libs', () => {

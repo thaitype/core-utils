@@ -1,5 +1,5 @@
 {
-  "name": "typescript-npm-boilerplate-esm-cjs",
+  "name": "@thaitype/core-utils",
   "type": "module",
   "version": "0.0.0",
   "main": "./dist/cjs/index.js",
@@ -26,25 +26,24 @@
   ],
   "scripts": {
     "check": "tsc -b tsconfig.json",
+    "test": "vitest run",
     "check:watch": "tsc -b tsconfig.json -w",
-    "release": "bun run build && release-it",
     "format": "prettier --write src",
-    "build": "bun format && bun build-esm && bun build-cjs && bun build-annotate",
+    "build": " run-s format && run-s  build-esm && run-s build-cjs && run-s build-annotate",
     "build-esm": "tsc -b tsconfig.build.json",
     "build-cjs": "babel dist/esm --plugins @babel/transform-export-namespace-from --plugins @babel/transform-modules-commonjs --out-dir dist/cjs --source-maps",
-    "build-annotate": "babel dist --plugins annotate-pure-calls --out-dir dist --source-maps",
-    "prepublishOnly": "bun scripts/remove-type-key.ts",
-    "postpublish": "git checkout -- package.json"
+    "build-annotate": "babel dist --plugins annotate-pure-calls --out-dir dist --source-maps"
   },
   "devDependencies": {
-    "@types/bun": "latest",
     "@babel/cli": "^7.24.5",
     "@babel/core": "^7.24.5",
     "@babel/plugin-transform-export-namespace-from": "^7.24.1",
     "@babel/plugin-transform-modules-commonjs": "^7.24.1",
     "@type-challenges/utils": "^0.1.1",
     "babel-plugin-annotate-pure-calls": "^0.4.0",
-    "release-it": "^17.3.0"
+    "npm-run-all": "^4.1.5",
+    "prettier": "^3.4.2",
+    "vitest": "^3.1.4"
   },
   "peerDependencies": {
     "typescript": "^5.7.2"
@@ -55,10 +54,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/thaitype/typescript-npm-boilerplate-esm-cjs.git"
+    "url": "https://github.com/thaitype/core-utils.git"
   },
-  "homepage": "https://github.com/thaitype/typescript-npm-boilerplate-esm-cjs",
-  "dependencies": {
-    "prettier": "^3.4.2"
+  "homepage": "https://github.com/thaitype/core-utils",
+  "prettier": {
+    "trailingComma": "es5",
+    "tabWidth": 2,
+    "useTabs": false,
+    "semi": true,
+    "singleQuote": true,
+    "printWidth": 120,
+    "arrowParens": "avoid"
   }
 }
