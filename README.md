@@ -8,6 +8,7 @@ This package gives you two core tools for building robust, developer-friendly ap
 
 - 🧩 `TypedError` — custom errors with structured metadata
 - 🎨 `PrettyLogger` — colorful, pluggable logger that implements a shared `ILogger` interface
+- ⛓️ `applyMiddleware` — lightweight, type-safe function middleware (inspired by web frameworks)
 
 ## 🚀 Installation
 
@@ -84,13 +85,60 @@ console.log(memoryLogger.logs); // Assert logs in unit tests
 
 * **MemoryLogger** – keeps logs in memory, perfect for tests
 * **NoopLogger** – disables all logging (no-op implementation)
+* **ConsoleLogger** – simple console logger
 
 ```ts
-import { MemoryLogger, NoopLogger } from '@thaitype/core-utils';
+import { MemoryLogger, NoopLogger, ConsoleLogger } from '@thaitype/core-utils';
 
 const testLogger = new MemoryLogger();
 const silentLogger = new NoopLogger();
+const consoleLogger = new ConsoleLogger();
 ```
+
+## ⛓️ applyMiddleware — Chain Middleware in Plain Functions
+
+Inspired by web frameworks like Hono, `applyMiddleware` lets you compose behavior around any function — without needing a full server.
+
+```ts
+import {
+  applyMiddleware,
+  createMiddleware,
+  type Middleware
+} from '@thaitype/core-utils';
+
+type Context = { user?: { role: string } };
+
+const withLogger = createMiddleware<Context>(async (ctx, next) => {
+  console.log('🟡 Logger START');
+  await next();
+  console.log('🟣 Logger END');
+});
+
+const withRoleCheck = (role: string) =>
+  createMiddleware<Context>(async (ctx, next) => {
+    if (ctx.user?.role !== role) {
+      throw new Error('Unauthorized');
+    }
+    await next();
+  });
+
+const handler = async (ctx: Context) => {
+  return '🎉 Done!';
+};
+
+const run = applyMiddleware(handler, withLogger, withRoleCheck('admin'));
+
+await run({ user: { role: 'admin' } }); // ✅ OK
+await run({ user: { role: 'guest' } }); // ❌ Error: Unauthorized
+```
+
+### Features
+
+* ✅ Supports both `async` and `sync` functions
+* 🧠 Fully type-safe for context and return types
+* 🔁 Simple functional pattern: no decorators, no frameworks
+* 🔍 Useful for CLI tools, business logic, tests, and more
+
 
 ## 📦 Exports
 
@@ -101,6 +149,7 @@ import { TypedError, PrettyLogger, MemoryLogger, NoopLogger } from '@thaitype/co
 // Namespaced (optional)
 import * as logger from '@thaitype/core-utils/logger';
 import * as error from '@thaitype/core-utils/error';
+import * as middleware from '@thaitype/core-utils/middleware';
 ```
 
 ## 🛠 When to Use
@@ -111,6 +160,7 @@ import * as error from '@thaitype/core-utils/error';
 | Dev-time logs with colors | `PrettyLogger`      |
 | Silent mode or production | `NoopLogger`        |
 | Log capture for tests     | `MemoryLogger`      |
+| Middleware for functions  | `applyMiddleware`   |
 
 ## 💙 Maintained by [ThaiType](https://github.com/thaitype)
 
