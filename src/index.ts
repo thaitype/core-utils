@@ -5,6 +5,8 @@
  */
 export * from './logger/index.js';
 export * from './error/index.js';
+export * from './middleware/index.js';
+export * from './types.js';
 /**
  * Export `logger` modules with module name `logger`
  */
