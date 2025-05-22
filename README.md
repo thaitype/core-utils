@@ -61,7 +61,7 @@ Use `ILogger` in your code and plug in different loggers depending on your envir
 
 ```ts
 import type { ILogger } from '@thaitype/core-utils';
-import { PrettyLogger, MemoryLogger } from '@thaitype/core-utils';
+import { PrettyLogger, InMemoryLogger } from '@thaitype/core-utils';
 
 class App {
   constructor(private readonly logger: ILogger) {}
@@ -76,21 +76,21 @@ const logger = new PrettyLogger();
 new App(logger).run();
 
 // ✅ Use in tests
-const memoryLogger = new MemoryLogger();
-new App(memoryLogger).run();
-console.log(memoryLogger.logs); // Assert logs in unit tests
+const InMemoryLogger = new InMemoryLogger();
+new App(InMemoryLogger).run();
+console.log(InMemoryLogger.logs); // Assert logs in unit tests
 ```
 
 ## 🧪 Other Loggers
 
-* **MemoryLogger** – keeps logs in memory, perfect for tests
+* **InMemoryLogger** – keeps logs in memory, perfect for tests
 * **NoopLogger** – disables all logging (no-op implementation)
 * **ConsoleLogger** – simple console logger
 
 ```ts
-import { MemoryLogger, NoopLogger, ConsoleLogger } from '@thaitype/core-utils';
+import { InMemoryLogger, NoopLogger, ConsoleLogger } from '@thaitype/core-utils';
 
-const testLogger = new MemoryLogger();
+const testLogger = new InMemoryLogger();
 const silentLogger = new NoopLogger();
 const consoleLogger = new ConsoleLogger();
 ```
