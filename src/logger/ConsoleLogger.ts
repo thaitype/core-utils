@@ -1,4 +1,3 @@
-
 import type { ILogger, LogLevel } from './ILogger.js';
 
 /**
@@ -7,8 +6,7 @@ import type { ILogger, LogLevel } from './ILogger.js';
  * It is a simple wrapper around console.log, console.error, console.warn, and console.debug.
  */
 export class ConsoleLogger implements ILogger {
-
-  constructor(public readonly level: LogLevel = 'debug') { }
+  constructor(public readonly level: LogLevel = 'debug') {}
 
   logWithLevel(level: LogLevel, message: string, meta?: Record<string, unknown>): void {
     switch (level) {

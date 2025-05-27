@@ -1,9 +1,9 @@
-import type { MaybePromise } from "../types.js";
-import type { Middleware } from "./types.js";
+import type { MaybePromise } from '../types.js';
+import type { Middleware } from './types.js';
 
 /**
  * Creates a middleware function with type-safe context.
- * 
+ *
  * This is a helper to define a middleware that receives a context object
  * and a `next()` function to continue the execution chain.
  *

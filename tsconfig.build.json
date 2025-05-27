@@ -6,14 +6,17 @@
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
-    "noEmit": false
+    "noEmit": false,
+    "rootDir": "src",
   },
   "exclude": [
     "scripts",
+    "tests",
     "node_modules",
     "dist",
     "doc",
     "examples",
+    "vitest.config.ts",
     "src/**/*.spec.ts",
     "src/**/*.test.ts",
   ]

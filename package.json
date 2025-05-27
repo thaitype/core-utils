@@ -42,6 +42,7 @@
     "build-cjs": "babel dist/esm --plugins @babel/transform-export-namespace-from --plugins @babel/transform-modules-commonjs --out-dir dist/cjs --source-maps",
     "build-annotate": "babel dist --plugins annotate-pure-calls --out-dir dist --source-maps",
     "upgrade-deps": "npx taze -r --interactive",
+    "changeset": "changeset",
     "check-deps": "npx taze -r"
   },
   "devDependencies": {
