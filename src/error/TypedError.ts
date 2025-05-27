@@ -3,7 +3,7 @@
  *
  * This class extends the native `Error` class, allowing you to associate
  * structured metadata with the error in a type-safe manner.
- * 
+ *
  * Can be extended to define specific error types in your application.
  *
  * @template TMeta - The shape of metadata attached to the error. Defaults to a generic object.

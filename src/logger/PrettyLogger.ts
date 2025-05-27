@@ -1,6 +1,6 @@
 import c from 'ansis';
 import type { ILogger, LogLevel } from './ILogger.js';
-import { merge } from "lodash-es";
+import { merge } from 'lodash-es';
 
 export const MARK_INFO = 'ℹ'; // blue
 export const MARK_ERROR = '✖'; // red
@@ -16,7 +16,7 @@ export interface PrettyLoggerOptions {
   dimMeta: boolean;
   customPrefix: {
     [key in LogLevel]?: string;
-  }
+  };
 }
 
 export const defaultConsoleLoggerOptions: PrettyLoggerOptions = {
@@ -27,12 +27,15 @@ export const defaultConsoleLoggerOptions: PrettyLoggerOptions = {
     warn: MARK_WARNING,
     info: MARK_INFO,
     debug: MARK_DEBUG,
-  }
-}
+  },
+};
 
 export class PrettyLogger implements ILogger {
   private options: PrettyLoggerOptions;
-  constructor(public readonly level: LogLevel = 'debug', options?: Partial<PrettyLoggerOptions>) {
+  constructor(
+    public readonly level: LogLevel = 'debug',
+    options?: Partial<PrettyLoggerOptions>
+  ) {
     this.options = merge({}, defaultConsoleLoggerOptions, options);
   }
 

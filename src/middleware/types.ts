@@ -1,6 +1,3 @@
-import type { MaybePromise } from "../types.js";
+import type { MaybePromise } from '../types.js';
 
-export type Middleware<C> = (
-  ctx: C,
-  next: () => Promise<void>
-) => MaybePromise<void>;
+export type Middleware<C> = (ctx: C, next: () => Promise<void>) => MaybePromise<void>;
