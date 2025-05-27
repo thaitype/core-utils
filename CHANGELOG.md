@@ -1,5 +1,11 @@
 # @thaitype/core-utils
 
+## 1.1.1
+
+### Patch Changes
+
+- 8ed867c: Fix build issue
+
 ## 1.1.0
 
 ### Minor Changes
